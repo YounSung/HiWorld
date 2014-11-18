@@ -1,71 +1,50 @@
 package org.gradle;
+
 import java.util.ArrayList;
 
-
 public class Agent {
-//	Agent梓端 持失
-	
-//	ID, Name, LAT, LNG
+	// Agent梓端 持失
+
+	// ID, Name, LAT, LNG
 	private int id;
 	private String name;
 	private Double lat;
 	private Double lng;
-	private static ArrayList<Integer> orders;
-	
-	
-//	function set : Set Agent's Variables
-	
-	
-	public void setId(int id){
+
+	// function set : Set Agent's Variables
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public void setName(String name){
+
+	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setLat(Double lat){
+
+	public void setLat(Double lat) {
 		this.lat = lat;
 	}
-	
-	public void setLng(Double lng){
+
+	public void setLng(Double lng) {
 		this.lng = lng;
 	}
-	
-	public void setOrders(int order){
-		orders.add(order);
-	}
-	
-	
-//	function get : Call Agent's Variables
-	
-	
-	public int getId(){
+
+	// function get : Call Agent's Variables
+
+	public int getId() {
 		return this.id;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return this.name;
 	}
-	
-	public Double getLat(){
+
+	public Double getLat() {
 		return this.lat;
 	}
-	
-	public Double getLng(){
+
+	public Double getLng() {
 		return this.lng;
 	}
-	
-	public ArrayList<Integer> getOrders(){
-		return orders;
-	}
+
 }
-
-
-
-
-
-
-
-
-
