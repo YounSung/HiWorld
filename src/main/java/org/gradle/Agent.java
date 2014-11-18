@@ -13,6 +13,10 @@ public class Agent {
 
 	// function set : Set Agent's Variables
 
+	public Agent(int id) {
+		this.id = id;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}

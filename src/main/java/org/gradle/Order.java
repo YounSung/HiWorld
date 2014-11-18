@@ -19,4 +19,5 @@ public class Order {
 	private enum status {
 		PENDING, COMPLETED, CANCELLED
 	};
+
 }
