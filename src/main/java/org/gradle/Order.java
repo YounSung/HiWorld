@@ -1,5 +1,7 @@
 package org.gradle;
 
+import com.sun.jmx.snmp.Timestamp;
+
 public class Order {
 
 	// id: integer,
@@ -19,5 +21,10 @@ public class Order {
 	private enum status {
 		PENDING, COMPLETED, CANCELLED
 	};
+
+	private int agent_id;
+	private Timestamp created_at = new Timestamp(System.currentTimeMillis());
+	private Timestamp completed_at;
+	private Timestamp canncelled_at;
 
 }

@@ -2,10 +2,9 @@ package org.gradle;
 
 import static spark.Spark.*;
 
-
 public class DeliveryService {
 
-	public static void serviceupdate(AgentService agentservice) {
+	public DeliveryService(AgentService agentservice, OrderService orderservice) {
 
 		// GET /agents
 
@@ -15,14 +14,16 @@ public class DeliveryService {
 
 		// POST /agent
 
-		post("/post/agents", (req, res) -> agentservice.createAgent());
+		post("/post/agents", (req, res) -> {
+			return agentservice.createAgent();
+		});
 
 		// GET /agent/{id}
 
 		get("/get/agents/:id", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			Agent agent = agentservice.getAgent(id);
-			return req;
+			return agent.getId();
 		});
 
 		// PUT /agent/{id}/name
@@ -32,7 +33,7 @@ public class DeliveryService {
 			String name = req.params(":name");
 			Agent agent = agentservice.getAgent(id);
 			agent.setName(name);
-			return req;
+			return "Set Agent " + agent.getId() + " Name :" + agent.getName();
 		});
 
 		// PUT /agent/{id}/location
@@ -44,7 +45,8 @@ public class DeliveryService {
 			Agent agent = agentservice.getAgent(id);
 			agent.setLat(lat);
 			agent.setLng(lng);
-			return req;
+			return "Set Agent " + agent.getId() + " Lat :" + agent.getLat()
+					+ " Lng :" + agent.getLng();
 		});
 
 		// GET /agent/{id}/orders
@@ -63,5 +65,4 @@ public class DeliveryService {
 		// PUT /order/{id}/status
 
 	}
-
 }
