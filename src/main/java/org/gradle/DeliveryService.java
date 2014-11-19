@@ -43,8 +43,7 @@ public class DeliveryService {
 			Double lat = Double.parseDouble(req.params(":lat"));
 			Double lng = Double.parseDouble(req.params(":lng"));
 			Agent agent = agentservice.getAgent(id);
-			agent.setLat(lat);
-			agent.setLng(lng);
+			agent.setLocation(lat, lng);
 			return "Set Agent " + agent.getId() + " Lat :" + agent.getLat()
 					+ " Lng :" + agent.getLng();
 		});
@@ -53,16 +52,48 @@ public class DeliveryService {
 
 		get("/get/agent/:id/orders", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
-			Agent agent = agentservice.getAgent(id);
-			return agent.getId();
-			// Order Class 생성 후 해당 agent가 할당된 order들 반환
-			});
+			return orderservice.getAssigendOrders(id);
+		});
 
 		// GET /orders
-		// POST /order
-		// GET /order/{id}
-		// GET /order/{id}/agent
-		// PUT /order/{id}/status
 
+		get("/get/orders", (req, res) -> {
+			return orderservice.getAllOrders();
+		});
+
+		// POST /order
+
+		post("/post/orders", (req, res) -> {
+			return orderservice.createOrder();
+		});
+
+		// GET /order/{id}
+
+		get("/get/orders/:id", (req, res) -> {
+			int id = Integer.parseInt(req.params(":id"));
+			Order order = orderservice.getOrder(id);
+			return order;
+		});
+
+		// GET /order/{id}/agent
+
+		get("/get/orders/:id", (req, res) -> {
+			int id = Integer.parseInt(req.params(":id"));
+			Order order = orderservice.getOrder(id);
+			return order.getAssignedAgent();
+		});
+
+		// PUT /order/{id}/status
+		put("/get/orders/:id/:status", (req, res) -> {
+			int id = Integer.parseInt(req.params(":id"));
+			String stat = req.params(":status");
+			Order order = orderservice.getOrder(id);
+			if(stat.equals("complete")){
+				order.setComplete();
+			}else if(stat.equals("cancel")){
+				order.setCancel();
+			}
+			return order.getStatus();
+		});
 	}
 }
