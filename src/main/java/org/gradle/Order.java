@@ -91,8 +91,8 @@ public class Order {
 	public int getAssignedAgent() {
 		return this.agent_id;
 	}
-	
-	public Status getStatus(){
+
+	public Status getStatus() {
 		return this.status;
 	}
 }

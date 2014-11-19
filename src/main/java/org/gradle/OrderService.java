@@ -24,12 +24,12 @@ public class OrderService {
 		orders.put(order.getId(), order);
 		return order;
 	}
-	
-	public List<Order> getAssigendOrders(int id){
+
+	public List<Order> getAssigendOrders(int id) {
 		List<Order> array = new ArrayList<>();
-		for (int i=0; i<this.id;i++){
-			if(orders.get(i+1).getAssignedAgent()==id){
-				array.add(orders.get(i+1));
+		for (int i = 0; i < this.id; i++) {
+			if (orders.get(i + 1).getAssignedAgent() == id) {
+				array.add(orders.get(i + 1));
 			}
 		}
 		return array;

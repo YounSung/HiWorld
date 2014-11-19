@@ -25,17 +25,18 @@ public class Agent {
 		this.name = name;
 	}
 
-	public void setLocation(Double lat, Double lng){
+	public void setLocation(Double lat, Double lng) {
 		this.lat = lat;
 		this.lng = lng;
 	}
-//	public void setLat(Double lat) {
-//		this.lat = lat;
-//	}
-//
-//	public void setLng(Double lng) {
-//		this.lng = lng;
-//	}
+
+	// public void setLat(Double lat) {
+	// this.lat = lat;
+	// }
+	//
+	// public void setLng(Double lng) {
+	// this.lng = lng;
+	// }
 
 	// function get : Call Agent's Variables
 

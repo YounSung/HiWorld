@@ -88,9 +88,9 @@ public class DeliveryService {
 			int id = Integer.parseInt(req.params(":id"));
 			String stat = req.params(":status");
 			Order order = orderservice.getOrder(id);
-			if(stat.equals("complete")){
+			if (stat.equals("complete")) {
 				order.setComplete();
-			}else if(stat.equals("cancel")){
+			} else if (stat.equals("cancel")) {
 				order.setCancel();
 			}
 			return order.getStatus();
