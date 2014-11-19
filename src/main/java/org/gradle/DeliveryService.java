@@ -8,19 +8,20 @@ public class DeliveryService {
 
 		// GET /agents
 
-		get("/get/agents", (req, res) -> {
+		get("/agents", (req, res) -> {
 			return agentservice.getAllAgents();
 		});
 
 		// POST /agent
 
-		post("/post/agents", (req, res) -> {
-			return agentservice.createAgent();
+		post("/agents", (req, res) -> {
+			int id = Integer.parseInt(req.queryParams("id"));
+			return agentservice.createAgent(id);
 		});
 
 		// GET /agent/{id}
 
-		get("/get/agents/:id", (req, res) -> {
+		get("/agents/:id", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			Agent agent = agentservice.getAgent(id);
 			return agent.getId();
@@ -28,7 +29,7 @@ public class DeliveryService {
 
 		// PUT /agent/{id}/name
 
-		put("/put/agents/:id/:name", (req, res) -> {
+		put("/agents/:id/:name", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			String name = req.params(":name");
 			Agent agent = agentservice.getAgent(id);
@@ -38,7 +39,7 @@ public class DeliveryService {
 
 		// PUT /agent/{id}/location
 
-		put("/put/agent/:id/:lat/:lng", (req, res) -> {
+		put("/agent/:id/:lat/:lng", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			Double lat = Double.parseDouble(req.params(":lat"));
 			Double lng = Double.parseDouble(req.params(":lng"));
@@ -50,26 +51,27 @@ public class DeliveryService {
 
 		// GET /agent/{id}/orders
 
-		get("/get/agent/:id/orders", (req, res) -> {
+		get("/agent/:id/orders", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			return orderservice.getAssigendOrders(id);
 		});
 
 		// GET /orders
 
-		get("/get/orders", (req, res) -> {
+		get("/orders", (req, res) -> {
 			return orderservice.getAllOrders();
 		});
 
 		// POST /order
 
-		post("/post/orders", (req, res) -> {
-			return orderservice.createOrder();
+		post("/orders", (req, res) -> {
+			int id = Integer.parseInt(req.queryParams("id"));
+			return orderservice.createOrder(id);
 		});
 
 		// GET /order/{id}
 
-		get("/get/orders/:id", (req, res) -> {
+		get("/orders/:id", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			Order order = orderservice.getOrder(id);
 			return order;
@@ -77,14 +79,14 @@ public class DeliveryService {
 
 		// GET /order/{id}/agent
 
-		get("/get/orders/:id", (req, res) -> {
+		get("/orders/:id", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			Order order = orderservice.getOrder(id);
 			return order.getAssignedAgent();
 		});
 
 		// PUT /order/{id}/status
-		put("/get/orders/:id/:status", (req, res) -> {
+		put("/orders/:id/:status", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			String stat = req.params(":status");
 			Order order = orderservice.getOrder(id);

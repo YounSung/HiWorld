@@ -1,7 +1,5 @@
 package org.gradle;
 
-import java.util.ArrayList;
-
 public class Agent {
 	// Agent°´Ã¼ »ý¼º
 

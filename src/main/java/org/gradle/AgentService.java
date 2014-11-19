@@ -11,7 +11,6 @@ public class AgentService {
 
 	// Agent목록, 특정 ID를 갖는 Agent 호출 등의 함수
 
-	private int id = 1;
 
 	private Map<Integer, Agent> agents = new HashMap<>();
 
@@ -23,11 +22,10 @@ public class AgentService {
 		return agents.get(id);
 	}
 
-	public Agent createAgent() {
+	public Agent createAgent(int id) {
 
-		Agent agent = new Agent(this.id);
+		Agent agent = new Agent(id);
 		agents.put(agent.getId(), agent);
-		this.id++;
 		return agent;
 
 	}
