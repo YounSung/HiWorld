@@ -3,24 +3,40 @@ package org.gradle;
 import static spark.Spark.*;
 import static org.gradle.JsonUtil.*;
 
+import java.util.HashMap;
+import java.util.Map;
 
+import com.firebase.client.Firebase;
 
 public class DeliveryService {
 
 	public DeliveryService(AgentService agentservice, OrderService orderservice) {
 
+		// Create DB
+		Firebase myFire = new Firebase(
+				"https://popping-inferno-5757.firebaseio.com/");
+		Firebase myAgentFire = myFire.child("agents");
+		Firebase myOrderFire = myFire.child("orders");
+
+		myAgentFire.setValue(agentservice);
+		myOrderFire.setValue(orderservice);
+
 		// GET /agents
 
 		get("/agents", (req, res) -> {
 			return agentservice.getAllAgents();
-		},json());
+		}, json());
 
 		// POST /agent
 
 		post("/agents", (req, res) -> {
+
 			int id = Integer.parseInt(req.queryParams("id"));
-			return agentservice.createAgent(id);
-		},json());
+			Map<Integer, Agent> map = new HashMap<>();
+			map.put(id, agentservice.createAgent(id));
+			myAgentFire.child("agents").push().setValue(map);
+			return agentservice.getAgent(id);
+		}, json());
 
 		// GET /agent/{id}
 
@@ -28,7 +44,7 @@ public class DeliveryService {
 			int id = Integer.parseInt(req.params(":id"));
 			Agent agent = agentservice.getAgent(id);
 			return agent;
-		},json());
+		}, json());
 
 		// PUT /agent/{id}/name
 
@@ -38,7 +54,7 @@ public class DeliveryService {
 			Agent agent = agentservice.getAgent(id);
 			agent.setName(name);
 			return "Set Agent " + agent.getId() + " Name :" + agent.getName();
-		},json());
+		}, json());
 
 		// PUT /agent/{id}/location
 
@@ -50,27 +66,27 @@ public class DeliveryService {
 			agent.setLocation(lat, lng);
 			return "Set Agent " + agent.getId() + " Lat :" + agent.getLat()
 					+ " Lng :" + agent.getLng();
-		},json());
+		}, json());
 
 		// GET /agent/{id}/orders
 
 		get("/agents/:id/orders", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			return orderservice.getAssigendOrders(id);
-		},json());
+		}, json());
 
 		// GET /orders
 
 		get("/orders", (req, res) -> {
 			return orderservice.getAllOrders();
-		},json());
+		}, json());
 
 		// POST /order
 
 		post("/orders", (req, res) -> {
 			int id = Integer.parseInt(req.queryParams("id"));
 			return orderservice.createOrder(id);
-		},json());
+		}, json());
 
 		// GET /order/{id}
 
@@ -78,7 +94,7 @@ public class DeliveryService {
 			int id = Integer.parseInt(req.params(":id"));
 			Order order = orderservice.getOrder(id);
 			return order;
-		},json());
+		}, json());
 
 		// GET /order/{id}/agent
 
@@ -86,19 +102,21 @@ public class DeliveryService {
 			int id = Integer.parseInt(req.params(":id"));
 			Order order = orderservice.getOrder(id);
 			return order.getAssignedAgent();
-		},json());
-		
-//		Set order's destination and assign agent
-		put("/orders/:id/location", (req, res) -> {
-			int id = Integer.parseInt(req.params(":id"));
-			Double lat = Double.parseDouble(req.queryParams("lat"));
-			Double lng = Double.parseDouble(req.queryParams("lng"));
-			Order order = orderservice.getOrder(id);
-			order.setDestLocation(lat, lng);
-			orderservice.assignAgent(id, agentservice);
-			return "Set order " + order.getId() + " Lat :" + order.getLat()
-					+ " Lng :" + order.getLng() + " Assigned agent : " + order.getAssignedAgent();
-		},json());
+		}, json());
+
+		// Set order's destination and assign agent
+		put("/orders/:id/location",
+				(req, res) -> {
+					int id = Integer.parseInt(req.params(":id"));
+					Double lat = Double.parseDouble(req.queryParams("lat"));
+					Double lng = Double.parseDouble(req.queryParams("lng"));
+					Order order = orderservice.getOrder(id);
+					order.setDestLocation(lat, lng);
+					orderservice.assignAgent(id, agentservice);
+					return "Set order " + order.getId() + " Lat :"
+							+ order.getLat() + " Lng :" + order.getLng()
+							+ " Assigned agent : " + order.getAssignedAgent();
+				}, json());
 
 		// PUT /order/{id}/status
 		put("/orders/:id/status", (req, res) -> {
@@ -109,10 +127,10 @@ public class DeliveryService {
 				order.setComplete();
 			} else if (stat.equals("cancel")) {
 				order.setCancel();
-			} else{
+			} else {
 				return "Not appropriate status";
 			}
 			return order.getStatus();
-		},json());
+		}, json());
 	}
 }
