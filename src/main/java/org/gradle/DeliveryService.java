@@ -33,7 +33,7 @@ public class DeliveryService {
 
 		// POST /agent
 
-		post("/agents", (req, res) -> {
+		post("/agent", (req, res) -> {
 
 			int id = Integer.parseInt(req.queryParams("id"));
 			agentservice.createAgent(id);
