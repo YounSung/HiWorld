@@ -1,6 +1,7 @@
 package org.gradle;
 
 import com.google.gson.Gson;
+
 import spark.ResponseTransformer;
 
 public class JsonUtil {

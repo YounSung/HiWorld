@@ -13,6 +13,9 @@ public class DeliveryService {
 
 	public DeliveryService(AgentService agentservice, OrderService orderservice) {
 
+		// Convert to Json
+		JsonUtil json = new JsonUtil();
+
 		// Create DB
 		Firebase myFire = new Firebase(
 				"https://younsungdeliver.firebaseio.com/");
@@ -21,7 +24,6 @@ public class DeliveryService {
 
 		myAgentFire.setValue(agentservice);
 		myOrderFire.setValue(orderservice);
-
 
 		// GET /agents
 
@@ -36,7 +38,7 @@ public class DeliveryService {
 			int id = Integer.parseInt(req.queryParams("id"));
 			Map<Integer, Agent> map = new HashMap<>();
 			map.put(id, agentservice.createAgent(id));
-			myAgentFire.child("agents").push().setValue(map);
+			myAgentFire.child("agents").push().setValue(json.toJson(map));
 			return agentservice.getAgent(id);
 		}, json());
 
