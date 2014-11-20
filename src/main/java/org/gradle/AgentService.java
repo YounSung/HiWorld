@@ -13,13 +13,13 @@ public class AgentService {
 
 	private Map<Integer, Agent> agents = new HashMap<>();
 
-	public Map<Integer, Agent> getMap() {
-		return agents;
-	}
-	
-	public void setMap(Map<Integer, Agent> map){
-		agents = map;
-	}
+//	public Map<Integer, Agent> getMap() {
+//		return agents;
+//	}
+//	
+//	public void setMap(Map<Integer, Agent> map){
+//		agents = map;
+//	}
 
 	public List<Agent> getAllAgents() {
 		return new ArrayList<>(agents.values());
