@@ -84,6 +84,18 @@ public class DeliveryService {
 			Order order = orderservice.getOrder(id);
 			return order.getAssignedAgent();
 		});
+		
+//		Set order's destination and assign agent
+		put("/orders/:id/:lat/:lng", (req, res) -> {
+			int id = Integer.parseInt(req.params(":id"));
+			Double lat = Double.parseDouble(req.params(":lat"));
+			Double lng = Double.parseDouble(req.params(":lng"));
+			Order order = orderservice.getOrder(id);
+			order.setDestLocation(lat, lng);
+			orderservice.assignAgent(id, agentservice);
+			return "Set order " + order.getId() + " Lat :" + order.getLat()
+					+ " Lng :" + order.getLng() + " Assigned agent : " + order.getAssignedAgent();
+		});
 
 		// PUT /order/{id}/status
 		put("/orders/:id/:status", (req, res) -> {
