@@ -36,7 +36,11 @@ public class DeliveryService {
 		post("/agent", (req, res) -> {
 
 			int id = Integer.parseInt(req.queryParams("id"));
-			agentservice.createAgent(id);
+			
+			String name = req.queryParams("name");
+			Double lat = Double.parseDouble(req.queryParams("lat"));
+			Double lng = Double.parseDouble(req.queryParams("lng"));
+			agentservice.createAgent(id,name,lat,lng);
 			myAgentFire.child(Integer.toString(id)).setValue(agentservice.getAgent(id));			
 			return agentservice.getAgent(id);
 		}, json());
@@ -56,8 +60,8 @@ public class DeliveryService {
 			String name = req.queryParams("name");
 			Agent agent = agentservice.getAgent(id);
 			agent.setName(name);
-			myAgentFire.child(Integer.toString(id)).setValue(agentservice.getAgent(id));
-			return "Set Agent " + agent.getId() + " Name :" + agent.getName() ;
+			myAgentFire.child(Integer.toString(id)).setValue(agent);
+			return agent ;
 		}, json());
 
 		// PUT /agent/{id}/location
@@ -69,8 +73,7 @@ public class DeliveryService {
 			Agent agent = agentservice.getAgent(id);
 			agent.setLocation(lat, lng);
 			myAgentFire.child(Integer.toString(id)).setValue(agentservice.getAgent(id));
-			return "Set Agent " + agent.getId() + " Lat :" + agent.getLat()
-					+ " Lng :" + agent.getLng();
+			return agent;
 		}, json());
 
 		// GET /agent/{id}/orders
