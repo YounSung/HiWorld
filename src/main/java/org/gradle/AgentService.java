@@ -29,11 +29,9 @@ public class AgentService {
 		return agents.get(id);
 	}
 
-	public Agent createAgent(int id,String name, Double lat, Double lng) {
+	public Agent createAgent(int id, String name, Double lat, Double lng) {
 
-		Agent agent = new Agent(id);
-		agent.setName(name);
-		agent.setLocation(lat, lng);
+		Agent agent = new Agent(id, name, lat, lng);
 		agents.put(agent.getId(), agent);
 		return agent;
 

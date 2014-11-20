@@ -11,8 +11,11 @@ public class Agent {
 
 	// function set : Set Agent's Variables
 
-	public Agent(int id) {
+	public Agent(int id, String name, Double lat, Double lng) {
 		this.id = id;
+		this.name = name;
+		this.lat = lat;
+		this.lng = lng;
 	}
 
 	public void setId(int id) {

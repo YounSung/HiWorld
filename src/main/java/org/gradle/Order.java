@@ -23,14 +23,18 @@ public class Order {
 	};
 
 	private int agent_id;
-	private Timestamp created_at = new Timestamp(System.currentTimeMillis());
+	private Timestamp created_at;
 	private Timestamp completed_at;
 	private Timestamp cancelled_at;
 
 	private Status status;
 
-	public Order(int id) {
+	public Order(int id, String address, Double lat, Double lng) {
 		this.id = id;
+		this.address = address;
+		this.dest_lat = lat;
+		this.dest_lng = lng;
+		created_at = new Timestamp(System.currentTimeMillis());
 		status = Status.PENDING;
 	}
 

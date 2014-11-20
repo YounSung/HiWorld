@@ -17,8 +17,8 @@ public class OrderService {
 		return orders.get(id);
 	}
 
-	public Order createOrder(int id) {
-		Order order = new Order(id);
+	public Order createOrder(int id, String address, Double lat, Double lng) {
+		Order order = new Order(id, address, lat, lng);
 		orders.put(order.getId(), order);
 		return order;
 	}

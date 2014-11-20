@@ -13,10 +13,8 @@ public class DeliveryService {
 
 	public DeliveryService(AgentService agentservice, OrderService orderservice) {
 
-		// Convert to Json
-		JsonUtil json = new JsonUtil();
-
 		// Create DB
+
 		Firebase myFire = new Firebase(
 				"https://younsungdeliver.firebaseio.com/");
 		Firebase myAgentFire = myFire.child("agents");
@@ -33,17 +31,18 @@ public class DeliveryService {
 
 		// POST /agent
 
-		post("/agent", (req, res) -> {
+		post("/agent",
+				(req, res) -> {
 
-			int id = Integer.parseInt(req.queryParams("id"));
-			
-			String name = req.queryParams("name");
-			Double lat = Double.parseDouble(req.queryParams("lat"));
-			Double lng = Double.parseDouble(req.queryParams("lng"));
-			agentservice.createAgent(id,name,lat,lng);
-			myAgentFire.child(Integer.toString(id)).setValue(agentservice.getAgent(id));			
-			return agentservice.getAgent(id);
-		}, json());
+					int id = Integer.parseInt(req.queryParams("id"));
+					String name = req.queryParams("name");
+					Double lat = Double.parseDouble(req.queryParams("lat"));
+					Double lng = Double.parseDouble(req.queryParams("lng"));
+					agentservice.createAgent(id, name, lat, lng);
+					myAgentFire.child(Integer.toString(id)).setValue(
+							agentservice.getAgent(id));
+					return agentservice.getAllAgents();
+				}, json());
 
 		// GET /agent/{id}
 
@@ -61,20 +60,22 @@ public class DeliveryService {
 			Agent agent = agentservice.getAgent(id);
 			agent.setName(name);
 			myAgentFire.child(Integer.toString(id)).setValue(agent);
-			return agent ;
+			return agent;
 		}, json());
 
 		// PUT /agent/{id}/location
 
-		put("/agents/:id/location", (req, res) -> {
-			int id = Integer.parseInt(req.params(":id"));
-			Double lat = Double.parseDouble(req.queryParams("lat"));
-			Double lng = Double.parseDouble(req.queryParams("lng"));
-			Agent agent = agentservice.getAgent(id);
-			agent.setLocation(lat, lng);
-			myAgentFire.child(Integer.toString(id)).setValue(agentservice.getAgent(id));
-			return agent;
-		}, json());
+		put("/agents/:id/location",
+				(req, res) -> {
+					int id = Integer.parseInt(req.params(":id"));
+					Double lat = Double.parseDouble(req.queryParams("lat"));
+					Double lng = Double.parseDouble(req.queryParams("lng"));
+					Agent agent = agentservice.getAgent(id);
+					agent.setLocation(lat, lng);
+					myAgentFire.child(Integer.toString(id)).setValue(
+							agentservice.getAgent(id));
+					return agent;
+				}, json());
 
 		// GET /agent/{id}/orders
 
@@ -91,10 +92,17 @@ public class DeliveryService {
 
 		// POST /order
 
-		post("/orders", (req, res) -> {
-			int id = Integer.parseInt(req.queryParams("id"));
-			return orderservice.createOrder(id);
-		}, json());
+		post("/order",
+				(req, res) -> {
+					int id = Integer.parseInt(req.queryParams("id"));
+					String address = req.queryParams("address");
+					Double lat = Double.parseDouble(req.queryParams("lat"));
+					Double lng = Double.parseDouble(req.queryParams("lng"));
+					orderservice.createOrder(id, address, lat, lng);
+					myOrderFire.child(Integer.toString(id)).setValue(
+							orderservice.getOrder(id));
+					return orderservice.getAllOrders();
+				}, json());
 
 		// GET /order/{id}
 
@@ -113,6 +121,7 @@ public class DeliveryService {
 		}, json());
 
 		// Set order's destination and assign agent
+
 		put("/orders/:id/location",
 				(req, res) -> {
 					int id = Integer.parseInt(req.params(":id"));
@@ -127,6 +136,7 @@ public class DeliveryService {
 				}, json());
 
 		// PUT /order/{id}/status
+
 		put("/orders/:id/status", (req, res) -> {
 			int id = Integer.parseInt(req.params(":id"));
 			String stat = req.queryParams("status");
