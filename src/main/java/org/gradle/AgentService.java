@@ -17,9 +17,9 @@ public class AgentService {
 	// return agents;
 	// }
 	//
-	// public void setMap(Map<Integer, Agent> map){
-	// agents = map;
-	// }
+	 public void setMap(Map<Integer, Agent> map){
+	 agents = map;
+	 }
 
 	public List<Agent> getAllAgents() {
 		return new ArrayList<>(agents.values());

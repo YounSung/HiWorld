@@ -1,11 +1,13 @@
 package org.gradle;
 
 import static spark.Spark.*;
+
 import static org.gradle.JsonUtil.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.firebase.client.*;
 import com.firebase.client.Firebase;
 import com.firebase.client.ValueEventListener;
 
@@ -20,12 +22,34 @@ public class DeliveryService {
 		Firebase myAgentFire = myFire.child("agents");
 		Firebase myOrderFire = myFire.child("orders");
 
-		myAgentFire.setValue(agentservice);
-		myOrderFire.setValue(orderservice);
-
+//		myAgentFire.setValue(agentservice);
+//		myOrderFire.setValue(orderservice);
+		
 		// GET /agents
 
 		get("/agents", (req, res) -> {
+			myAgentFire.addValueEventListener(new ValueEventListener() {
+			    @Override
+			    public void onDataChange(DataSnapshot snapshot) {			        
+			        AgentService agentservice2 = new AgentService();
+					Map<Integer, Agent> value = (Map<Integer, Agent>)snapshot.getValue();
+					agentservice2.setMap(value);
+			        System.out.println(agentservice2.getAgent(1));
+			    }
+			    @Override
+			    public void onCancelled(FirebaseError firebaseError) {
+			        System.out.println("The read failed: " + firebaseError.getMessage());
+			    }
+			    
+			});
+			
+//			AgentService ag = new AgentService();
+//			DataSnapshot snapshot = new DataSnapshot(myAgentFire, null, null);
+//			return snapshot.child("1").getValue();
+//			Map<String, Agent> value = (Map<String, Agent>)snapshot.getValue();
+//			return value.get(Integer.toString(1));
+//			System.out.println(ag.getAllAgents());
+//			return ag.getAllAgents();
 			return agentservice.getAllAgents();
 		}, json());
 
