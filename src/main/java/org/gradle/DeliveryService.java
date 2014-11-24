@@ -2,6 +2,7 @@ package org.gradle;
 
 import static spark.Spark.*;
 
+
 import static org.gradle.JsonUtil.*;
 
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import com.firebase.client.*;
 import com.firebase.client.Firebase;
 import com.firebase.client.ValueEventListener;
+import src.net.thegreshams.firebase4j.*;
 
 public class DeliveryService {
 
@@ -17,31 +19,50 @@ public class DeliveryService {
 
 		// Create DB
 
+//		// create the firebase
+//		Firebase firebase = new Firebase( firebase_baseUrl );
+//		
+//		
+//		// "DELETE" (the fb4jDemo-root)
+//		FirebaseResponse response = firebase.delete();
+//	
+//
+//		// "PUT" (test-map into the fb4jDemo-root)
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+//		dataMap.put( "PUT-root", "This was PUT into the fb4jDemo-root" );
+//		response = firebase.put( dataMap );
+//		System.out.println( "\n\nResult of PUT (for the test-PUT to fb4jDemo-root):\n" + response );
+//		System.out.println("\n");
+		
+		
+			
 		Firebase myFire = new Firebase(
 				"https://younsungdeliver.firebaseio.com/");
-		Firebase myAgentFire = myFire.child("agents");
-		Firebase myOrderFire = myFire.child("orders");
-
+		FirebaseResponse response = myFire.delete();
+//		Firebase myAgentFire = myFire.child("agents");
+//		Firebase myOrderFire = myFire.child("orders");
+//		FirebaseResponse response = myAgentFire.delete();
+		
 //		myAgentFire.setValue(agentservice);
 //		myOrderFire.setValue(orderservice);
 		
 		// GET /agents
 
 		get("/agents", (req, res) -> {
-			myAgentFire.addValueEventListener(new ValueEventListener() {
-			    @Override
-			    public void onDataChange(DataSnapshot snapshot) {			        
-			        AgentService agentservice2 = new AgentService();
-					Map<Integer, Agent> value = (Map<Integer, Agent>)snapshot.getValue();
-					agentservice2.setMap(value);
-			        System.out.println(agentservice2.getAgent(1));
-			    }
-			    @Override
-			    public void onCancelled(FirebaseError firebaseError) {
-			        System.out.println("The read failed: " + firebaseError.getMessage());
-			    }
-			    
-			});
+//			myAgentFire.addValueEventListener(new ValueEventListener() {
+//			    @Override
+//			    public void onDataChange(DataSnapshot snapshot) {			        
+//			        AgentService agentservice2 = new AgentService();
+//					Map<Integer, Agent> value = (Map<Integer, Agent>)snapshot.getValue();
+//					agentservice2.setMap(value);
+//			        System.out.println(agentservice2.getAgent(1));
+//			    }
+//			    @Override
+//			    public void onCancelled(FirebaseError firebaseError) {
+//			        System.out.println("The read failed: " + firebaseError.getMessage());
+//			    }
+//			    
+//			});
 			
 //			AgentService ag = new AgentService();
 //			DataSnapshot snapshot = new DataSnapshot(myAgentFire, null, null);
@@ -63,8 +84,10 @@ public class DeliveryService {
 					Double lat = Double.parseDouble(req.queryParams("lat"));
 					Double lng = Double.parseDouble(req.queryParams("lng"));
 					agentservice.createAgent(id, name, lat, lng);
-					myAgentFire.child(Integer.toString(id)).setValue(
-							agentservice.getAgent(id));
+//					myAgentFire.child(Integer.toString(id)).setValue(
+//							agentservice.getAgent(id));
+					dataMap.put("agents", agentservice);
+					response = myFire.post(dataMap);
 					return agentservice.getAllAgents();
 				}, json());
 
@@ -123,9 +146,9 @@ public class DeliveryService {
 					Double lat = Double.parseDouble(req.queryParams("lat"));
 					Double lng = Double.parseDouble(req.queryParams("lng"));
 					orderservice.createOrder(id, address, lat, lng);
-					myOrderFire.child(Integer.toString(id)).setValue(
-							orderservice.getOrder(id));
-					return orderservice.getAllOrders();
+//					myOrderFire.child(Integer.toString(id)).setValue(
+//							orderservice.getOrder(id));
+					return orderservice.getOrder(id);
 				}, json());
 
 		// GET /order/{id}
