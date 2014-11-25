@@ -2,6 +2,11 @@ package org.gradle;
 
 import com.sun.jmx.snmp.Timestamp;
 
+/**
+ * 각 Order를 나타내는 Class
+ * @author YounSung
+ *
+ */
 public class Order {
 
 	// id: integer,

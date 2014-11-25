@@ -34,5 +34,6 @@
 	<classpathentry kind="lib" path="C:/Users/Rick/JAVA/eclipse/plugins/firebase-token-generator-java-master"/>
 	<classpathentry kind="lib" path="C:/Users/Rick/Downloads/firebase-token-generator-java-master.zip"/>
 	<classpathentry kind="lib" path="C:/Users/Rick/Downloads/firebase4j-master.zip"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

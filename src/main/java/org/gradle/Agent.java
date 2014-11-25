@@ -1,5 +1,10 @@
 package org.gradle;
 
+/**
+ * 각 Agent를 나타내는 class
+ * @author YounSung
+ *
+ */
 public class Agent {
 	// Agent객체 생성
 

@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 여러 Order를 set로 갖는 service class
+ * @author YounSung
+ *
+ */
 public class OrderService {
 
 	private Map<Integer, Order> orders = new HashMap<>();
@@ -12,7 +16,7 @@ public class OrderService {
 	public List<Order> getAllOrders() {
 		return new ArrayList<>(orders.values());
 	}
-
+	
 	public Order getOrder(int id) {
 		return orders.get(id);
 	}
